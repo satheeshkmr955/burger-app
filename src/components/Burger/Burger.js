@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "./Burger.css";
 import BurgerIngredient from "./BurgerIngredient/BurgerIngredient";
-const _ = require("lodash");
 const burger = props => {
   let Staffing = Object.keys(props.ingredients)
     .map(ingredientKey => {

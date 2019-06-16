@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Aux from "../../hoc/Aux";
 import Burger from "../../components/Burger/Burger";
 import BuildControls from "../../components/Burger/BuildControls/BuildControls";
+const _ = require("lodash");
 
 const INGREDIENT_PRICES = {
   salad: 0.2,
@@ -20,9 +21,15 @@ class BurgerBuilder extends Component {
         cheese: 0,
         meat: 0
       },
-      totalPrice: 5
+      totalPrice: 5,
+      purchaseStatus: false
     };
   }
+
+  updatePurchaseStatus = ingredients => {
+    let ingredientsCounts = _.sum(_.values(ingredients));
+    this.setState({ purchaseStatus: ingredientsCounts > 0 });
+  };
 
   addIngredientHandler = type => {
     const updatedCount = this.state.ingredients[type] + 1;
@@ -33,6 +40,7 @@ class BurgerBuilder extends Component {
       totalPrice: updatedPrice,
       ingredients: updatedIngredient
     });
+    this.updatePurchaseStatus(updatedIngredient);
   };
 
   removeIngredientHandler = type => {
@@ -47,6 +55,7 @@ class BurgerBuilder extends Component {
       totalPrice: updatedPrice,
       ingredients: updatedIngredient
     });
+    this.updatePurchaseStatus(updatedIngredient);
   };
 
   render() {
@@ -60,6 +69,7 @@ class BurgerBuilder extends Component {
       <Aux>
         <Burger ingredients={this.state.ingredients} />
         <BuildControls
+          purchaseStatus={this.state.purchaseStatus}
           ingredientAdded={this.addIngredientHandler}
           ingredientRemoved={this.removeIngredientHandler}
           disabled={disableInfo}
