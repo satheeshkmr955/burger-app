@@ -8,7 +8,7 @@ import axios from "../../axios-orders";
 import _ from "lodash";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import WithErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
-
+import querystring from "querystring";
 const INGREDIENT_PRICES = {
   salad: 0.2,
   cheese: 0.5,
@@ -31,7 +31,7 @@ class BurgerBuilder extends Component {
 
   componentDidMount() {
     axios
-      .get("https://burger-app-4d747.firebaseio.com/ingredients.json")
+      .get("/ingredients.json")
       .then(res => {
         this.setState({ ingredients: res.data });
       })
@@ -49,22 +49,15 @@ class BurgerBuilder extends Component {
   };
 
   purchaseContinueHandler = () => {
-    this.setState({ loading: true });
-    const orderBody = {
-      ingredients: this.state.ingredients,
-      price: this.state.totalPrice,
-      customerId: 1
-    };
-    axios
-      .post("/orders.json", orderBody)
-      .then(response => {
-        this.setState({ loading: false, purchasing: false });
-        console.log(response);
-      })
-      .catch(error => {
-        this.setState({ loading: false, purchasing: false });
-        console.log(error);
-      });
+    const { ingredients } = this.state;
+    let queryString = querystring.stringify({
+      ...ingredients,
+      price: this.state.totalPrice
+    });
+    this.props.history.push({
+      pathname: "/checkout",
+      search: "?" + queryString
+    });
   };
 
   updatePurchaseStatus = ingredients => {
