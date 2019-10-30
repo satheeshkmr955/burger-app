@@ -19,5 +19,6 @@
   "[css]": {
     "editor.formatOnSave": true
   },
-  "editor.quickSuggestions": true
+  "editor.quickSuggestions": true,
+  "peacock.color": "#b58161"
 }

@@ -24,7 +24,7 @@ class ContactData extends Component {
     this.setState({ loading: true });
     const orderBody = {
       ingredients: this.props.ingredients,
-      price: this.props.totalPrice,
+      price: this.props.price,
       customerId: 1
     };
     try {
