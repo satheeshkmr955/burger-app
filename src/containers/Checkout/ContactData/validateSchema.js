@@ -22,8 +22,13 @@ const validationSchema = Yup.object().shape({
     .trim(),
   deliveryMethod: Yup.object()
     .shape({
-      label: Yup.string().required(),
-      value: Yup.string().required()
+      label: Yup.string()
+        .required()
+        .trim(),
+      value: Yup.string()
+        .required()
+        .trim()
+        .uppercase()
     })
     .required("Delivery method is required!")
     .nullable()

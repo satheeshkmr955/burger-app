@@ -44,7 +44,7 @@ class ContactData extends Component {
     const orderBody = {
       ingredients: this.props.ingredients,
       price: this.props.price,
-      customerId: 1
+      orderData: this.state.orderForm
     };
     try {
       const orderRes = await axios.post("/orders.json", orderBody);
