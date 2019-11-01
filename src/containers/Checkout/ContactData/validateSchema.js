@@ -20,8 +20,12 @@ const validationSchema = Yup.object().shape({
   country: Yup.string()
     .required("Country is required!")
     .trim(),
-  deliveryMethod: Yup.string()
+  deliveryMethod: Yup.object()
+    .shape({
+      label: Yup.string().required(),
+      value: Yup.string().required()
+    })
     .required("Delivery method is required!")
-    .trim()
+    .nullable()
 });
 export default validationSchema;

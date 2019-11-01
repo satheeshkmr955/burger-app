@@ -14,7 +14,7 @@ const initialValues = {
   street: "",
   postal: "",
   country: "",
-  deliveryMethod: ""
+  deliveryMethod: null
 };
 
 const deliveryOptions = [
@@ -39,7 +39,7 @@ class ContactData extends Component {
   }
 
   orderHandler = async () => {
-    console.log(this.props);
+    // console.log(this.props);
     this.setState({ loading: true });
     const orderBody = {
       ingredients: this.props.ingredients,
