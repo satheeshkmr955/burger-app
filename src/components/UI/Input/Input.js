@@ -1,4 +1,5 @@
 import React from "react";
+import ReactSelect from "react-select";
 
 import styles from "./Input.css";
 
@@ -10,6 +11,9 @@ const input = props => {
       break;
     case "textarea":
       InputElement = <textarea className={styles.InputElement} {...props} />;
+      break;
+    case "select":
+      InputElement = <ReactSelect className={styles.InputElement} {...props} />;
       break;
     default:
       InputElement = <input className={styles.InputElement} {...props} />;

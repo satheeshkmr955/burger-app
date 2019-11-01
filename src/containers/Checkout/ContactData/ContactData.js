@@ -14,8 +14,13 @@ const initialValues = {
   street: "",
   postal: "",
   country: "",
-  deliveryMethod: "fastest"
+  deliveryMethod: ""
 };
+
+const deliveryOptions = [
+  { value: "FASTEST", label: "Fastest" },
+  { value: "CHEAPEST", label: "Cheapest" }
+];
 
 class ContactData extends Component {
   constructor(props) {
@@ -58,7 +63,8 @@ class ContactData extends Component {
         initialValues,
         validationSchema,
         onSubmit: values => {
-          this.setState({ orderForm: { ...values } }, () => {
+          const deliveryMethod = values.deliveryMethod.value;
+          this.setState({ orderForm: { ...values, deliveryMethod } }, () => {
             this.orderHandler();
           });
         }
@@ -69,7 +75,9 @@ class ContactData extends Component {
         errors,
         handleBlur,
         handleChange,
-        handleSubmit
+        handleSubmit,
+        setFieldValue,
+        setFieldTouched
       } = formik;
       return (
         <form onSubmit={handleSubmit}>
@@ -133,6 +141,20 @@ class ContactData extends Component {
           />
           {touched.postal && (
             <div className={styles.errors}>{errors.postal}</div>
+          )}
+          <Input
+            inputtype="select"
+            options={deliveryOptions}
+            type="select"
+            name="deliveryMethod"
+            id="deliveryMethod"
+            value={values.deliveryMethod}
+            placeholder="Your Delivery Method"
+            onChange={value => setFieldValue("deliveryMethod", value)}
+            onBlur={() => setFieldTouched("deliveryMethod", true)}
+          />
+          {touched.deliveryMethod && (
+            <div className={styles.errors}>{errors.deliveryMethod}</div>
           )}
           <Button btntype="Success" type="submit">
             ORDER
