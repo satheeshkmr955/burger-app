@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { useFormik } from "formik";
 
 import axios from "../../../axios-orders";
@@ -42,7 +43,7 @@ class ContactData extends Component {
     // console.log(this.props);
     this.setState({ loading: true });
     const orderBody = {
-      ingredients: this.props.ingredients,
+      ingredients: this.props.ings,
       price: this.props.price,
       orderData: this.state.orderForm
     };
@@ -170,5 +171,11 @@ class ContactData extends Component {
     );
   }
 }
+const mapStateToProps = state => {
+  return {
+    ings: state.ingredientReducer.ingredients,
+    price: state.ingredientReducer.totalPrice
+  };
+};
 
-export default ContactData;
+export default connect(mapStateToProps)(ContactData);

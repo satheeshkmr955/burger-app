@@ -1,16 +1,29 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
-import App from "./App";
-import * as serviceWorker from "./serviceWorker";
-import axios from "axios";
 import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import { createStore, combineReducers } from "redux";
+import axios from "axios";
+
+import App from "./App";
+import IngredientReducer from "./store/reducers/ingredientReducer";
+import * as serviceWorker from "./serviceWorker";
+import "./index.css";
+
 axios.defaults.baseURL = "https://burger-app-4d747.firebaseio.com";
 
+const rootReducer = combineReducers({
+  ingredientReducer: IngredientReducer
+});
+
+const store = createStore(rootReducer);
+
 const app = (
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>
 );
 ReactDOM.render(app, document.getElementById("root"));
 
