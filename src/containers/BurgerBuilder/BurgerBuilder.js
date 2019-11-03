@@ -5,7 +5,12 @@ import _ from "lodash";
 import WithErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 import Aux from "../../hoc/Aux/Aux";
 import axios from "../../axios-orders";
-import { ADD_INGREDIENT, REMOVE_INGREDIENT } from "../../store/actions";
+import {
+  addIngredient,
+  removeIngredient,
+  getIngredients,
+  purchaseInit
+} from "../../store/actions/";
 import Burger from "../../components/Burger/Burger";
 import BuildControls from "../../components/Burger/BuildControls/BuildControls";
 import Modal from "../../components/UI/Modal/Modal";
@@ -16,21 +21,12 @@ class BurgerBuilder extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      purchasing: false,
-      loading: false,
-      error: false
+      purchasing: false
     };
   }
 
   componentDidMount() {
-    axios
-      .get("/ingredients.json")
-      .then(res => {
-        this.setState({ ingredients: res.data });
-      })
-      .catch(error => {
-        this.setState({ error: true });
-      });
+    this.props.onGetIngredients();
   }
 
   purchaseHandler = () => {
@@ -42,6 +38,7 @@ class BurgerBuilder extends Component {
   };
 
   purchaseContinueHandler = () => {
+    this.props.onInitPurchase();
     this.props.history.push({
       pathname: "/checkout"
     });
@@ -60,7 +57,7 @@ class BurgerBuilder extends Component {
       disableInfo[key] = disableInfo[key] <= 0;
     }
     let orderSummary = null;
-    let burger = this.state.error ? (
+    let burger = this.props.error ? (
       <p style={{ textAlign: "center", fontWeight: "bold" }}>
         Ingredients Cannot be Loaded
       </p>
@@ -109,23 +106,19 @@ class BurgerBuilder extends Component {
 
 const mapStateToProps = state => {
   return {
-    ings: state.ingredientReducer.ingredients,
-    price: state.ingredientReducer.totalPrice
+    ings: state.burgerBuilder.ingredients,
+    price: state.burgerBuilder.totalPrice,
+    error: state.burgerBuilder.error
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAddIngredient: ingredientName =>
-      dispatch({
-        type: ADD_INGREDIENT,
-        payload: { ingredientName }
-      }),
+    onAddIngredient: ingredientName => dispatch(addIngredient(ingredientName)),
     onRemoveIngredient: ingredientName =>
-      dispatch({
-        type: REMOVE_INGREDIENT,
-        payload: { ingredientName }
-      })
+      dispatch(removeIngredient(ingredientName)),
+    onGetIngredients: () => dispatch(getIngredients()),
+    onInitPurchase: () => dispatch(purchaseInit())
   };
 };
 

@@ -2,21 +2,30 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-import { createStore, combineReducers } from "redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension/logOnlyInProduction";
+import thunk from "redux-thunk";
 import axios from "axios";
 
 import App from "./App";
-import IngredientReducer from "./store/reducers/ingredientReducer";
+import IngredientReducer from "./store/reducers/burgerBuilder";
+import OrderReducer from "./store/reducers/orders";
 import * as serviceWorker from "./serviceWorker";
 import "./index.css";
 
 axios.defaults.baseURL = "https://burger-app-4d747.firebaseio.com";
 
 const rootReducer = combineReducers({
-  ingredientReducer: IngredientReducer
+  burgerBuilder: IngredientReducer,
+  orders: OrderReducer
 });
 
-const store = createStore(rootReducer);
+const composeEnhancers = composeWithDevTools({});
+
+const store = createStore(
+  rootReducer,
+  composeEnhancers(applyMiddleware(thunk))
+);
 
 const app = (
   <Provider store={store}>
