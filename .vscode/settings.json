@@ -3,6 +3,7 @@
   "prettier.eslintIntegration": true,
   "workbench.colorCustomizations": {
     "activityBar.background": "#c59d84",
+    "activityBar.activeBorder": "#e9f5ee",
     "activityBar.foreground": "#15202b",
     "activityBar.inactiveForeground": "#15202b99",
     "activityBarBadge.background": "#e9f5ee",

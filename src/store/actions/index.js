@@ -12,3 +12,4 @@ export {
   fetchIngredientsFailed
 } from "./burgerBuilder";
 export { purchaseBurger, purchaseInit, getOrders } from "./orders";
+export { auth } from "./auth";
