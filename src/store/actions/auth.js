@@ -15,23 +15,26 @@ export const authSuccess = payload => {
   return { type: AUTH_SUCCESS, payload };
 };
 
-export const authFail = error => {
-  return { type: AUTH_FAIL, error };
+export const authFail = payload => {
+  return { type: AUTH_FAIL, payload };
 };
 
 export const auth = payload => {
   return async dispatch => {
     try {
       dispatch(authStart());
-      const authBody = { ...payload, returnSecureToken: true };
-      const apiRes = await authInstance.post(
-        `accounts:signUp?key=${FIREBASE_API_KEY}`,
-        authBody
-      );
+      const { email, password, isSignup } = payload;
+      const authBody = { email, password, returnSecureToken: true };
+      let url = `accounts:signUp?key=${FIREBASE_API_KEY}`;
+      if (!isSignup) {
+        url = `accounts:signInWithPassword?key=${FIREBASE_API_KEY}`;
+      }
+      const apiRes = await authInstance.post(url, authBody);
       console.log(apiRes);
-      dispatch(authSuccess(apiRes.data));
+      const { localId: userId, idToken: token } = apiRes.data;
+      dispatch(authSuccess({ userId, token }));
     } catch (err) {
-      dispatch(authFail(err));
+      dispatch(authFail({ error: err.response.data.error }));
     }
   };
 };

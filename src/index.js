@@ -10,6 +10,7 @@ import axios from "axios";
 import App from "./App";
 import IngredientReducer from "./store/reducers/burgerBuilder";
 import OrderReducer from "./store/reducers/orders";
+import AuthReducer from "./store/reducers/auth";
 import * as serviceWorker from "./serviceWorker";
 import "./index.css";
 
@@ -17,7 +18,8 @@ axios.defaults.baseURL = "https://burger-app-4d747.firebaseio.com";
 
 const rootReducer = combineReducers({
   burgerBuilder: IngredientReducer,
-  orders: OrderReducer
+  orders: OrderReducer,
+  auth: AuthReducer
 });
 
 const composeEnhancers = composeWithDevTools({});
