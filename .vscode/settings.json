@@ -3,6 +3,7 @@
   "prettier-eslint.eslintIntegration": true,
   "workbench.colorCustomizations": {
     "activityBar.background": "#c59d84",
+    "activityBar.activeBackground": "#c59d84",
     "activityBar.activeBorder": "#e9f5ee",
     "activityBar.foreground": "#15202b",
     "activityBar.inactiveForeground": "#15202b99",
@@ -22,5 +23,8 @@
   },
   "editor.quickSuggestions": true,
   "peacock.color": "#b58161",
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
 }
